@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.nuaa.ssm.domain.User" alias="_User"/>
+        <typeAlias type="com.nuaa.ssm.domain.Veh" alias="_Veh"/>
+
+    </typeAliases>
+    <!-- 引入映射文件 -->
+    <mappers>
+        <mapper resource="UserMapper.xml"/>
+        <mapper resource="VehMapper.xml"/>
+    </mappers>
+</configuration>
