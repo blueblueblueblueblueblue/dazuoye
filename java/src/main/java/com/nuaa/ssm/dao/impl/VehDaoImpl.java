@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  */
-@Repository()
+@Repository("vehDao")
 public class VehDaoImpl extends SqlSessionDaoSupport implements BaseDao<Veh> {
 
     public void insert(Veh veh) {

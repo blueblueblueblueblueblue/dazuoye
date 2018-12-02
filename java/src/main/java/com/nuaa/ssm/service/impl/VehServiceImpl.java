@@ -25,8 +25,6 @@ import java.util.List;
 public class VehServiceImpl extends BaseServiceImpl<Veh> implements VehService {
 
 
-
-
     @Resource(name="vehDao")
     public void setDao(BaseDao<Veh> dao) {
         super.setDao(dao);
@@ -99,7 +97,7 @@ public class VehServiceImpl extends BaseServiceImpl<Veh> implements VehService {
     public int [] selectEnable(){
         int [] enable = new int[3];
         CheckLimit ck = new CheckLimit();
-        List<Veh> list = new ArrayList<Veh>();
+        List<Veh> list = selectAll();;
         for (Veh veh : list){
             if (!ck.check(veh.getVehnum())&&veh.getSfap()==0){
 

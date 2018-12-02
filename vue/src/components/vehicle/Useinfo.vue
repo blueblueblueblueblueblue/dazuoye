@@ -171,56 +171,66 @@
             width="40">
             <template slot-scope="scope">
               <i class="el-icon-success " v-if="scope.row.status=='1'"></i>
-              <i class="el-icon-info" v-else-if="scope.row.status=='2'"></i>
+              <i class="el-icon-info" v-else-if="scope.row.status=='0'"></i>
               <i class="el-icon-error" v-else></i>
             </template>
           </el-table-column>
           <el-table-column
-            prop="time"
+            prop="ycsj"
             label="用车时间"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="person"
+            prop="ycr"
             label="用车人"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="reason"
+            prop="ycsy"
             label="用车事由"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="peoplenum"
+            prop="ycrs"
             label="人数"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="dest"
+            prop="mdd"
             label="目的地"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="isneed"
+            prop="sfxysj"
             label="需要司机"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="spr"
+            prop="csspr"
             label="处室审批人"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="appstatus"
+            prop="apqk"
             label="安排情况"
           >
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="sqsj"
             label="申请时间"
             >
           </el-table-column>
         </el-table>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24" style="margin-left: 100px">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-count="pagecount"
+          @current-change="handleChangepage">
+        </el-pagination>
       </el-col>
     </el-row>
   </el-row>
@@ -297,14 +307,7 @@
 
 
             },
-            managertable: [{
-              date: '2016-05-02',
-              status: '1',
-              appstatus: '上海市普陀区金沙江路 1518 弄',
-              spr:'室主任',
-              isneed:'1',
-
-            }],
+            managertable: [],
             pickerOptions1: {
               disabledDate(time) {
 
@@ -332,53 +335,90 @@
             appnum:'已安排车辆',
             limitnum:'限行车辆',
             dialogVisible:false,
-            arrxiaonum:'',
-            arrzhongnum:'',
-            arrdanum:'',
-            limitxiaonum:'',
-            limitzhongnum:'',
-            limitdanum:'',
-            enablexiaonum:'',
-            enablezhongnum:'',
-            enabledanum:'',
+
+            pagecount:0,
+            currentpage:1,
+            currentvehnum:'',
 
           }
     },
     mounted:function () {
-      this.$ajax.get('/getVehNum').then((res)=>{
-      if (res.data.status) {
-        console.log(res.data);
-        this.arrxiaonum = res.data.arrxiaonum;
-        this.arrzhongnum = res.data.arrzhongnum;
-        this.arrdanum = res.data.arrdanum;
-        this.limitxiaonum = res.data.limitxiaonum;
-        this.limitzhongnum = res.data.limitzhongnum;
-        this.limitdanum = res.data.limitdanum;
-        this.enablexiaonum = res.data.enablexiaonum;
-        this.enablezhongnum = res.data.enablezhongnum;
-        this.enabledanum = res.data.enabledanum;
-
-      } else {
-        console.log(res.data.status)
-        this.$message({
-          type: 'error',
-          message: '参数错误',
-          showClose: true
-        })
-      }
-    }).catch((err) => {
-      this.$message({
-        type: 'error',
-        message: '网络错误，请重试',
-        showClose: true
-      })
-    })
-
+      this.applyTableInfo();
+      this.handlePageSearch(1,10);
     },
     methods:{
-          apply(){
+      handleChangepage(val) {
+        console.log(`当前页: ${val}`);
+        this.currentpage = val;
+        console.log("dangqianye",this.currentpage);
+        this.handlePageSearch(this.currentpage,10);
+      },
+      applyTableInfo(){
+        this.$ajax.get('/getVehNum').then((res)=>{
+          if (res.data.status) {
+            console.log(res.data);
+            this.tableData[0].keyong = res.data.enablexiaonum;
+            this.tableData[1].keyong = res.data.enablezhongnum;
+            this.tableData[2].keyong = res.data.enabledanum;
+            this.tableData[0].yianpai = res.data.arrxiaonum;
+            this.tableData[1].yianpai = res.data.arrzhongnum;
+            this.tableData[2].yianpai = res.data.arrdanum;
+            this.tableData[0].xianxing = res.data.limitxiaonum;
+            this.tableData[1].xianxing = res.data.limitzhongnum;
+            this.tableData[2].xianxing = res.data.limitdanum;
+          } else {
+            console.log(res.data.status)
+            this.$message({
+              type: 'error',
+              message: '参数错误',
+              showClose: true
+            })
+          }
+        }).catch((err) => {
+          this.$message({
+            type: 'error',
+            message: '网络错误，请重试',
+            showClose: true
+          })
+        })
+
+      },
+      handlePageSearch(currentpage,limit){
+        let param = new URLSearchParams();
+        param.append("currentpage", currentpage);
+        param.append("limit", limit);
+        this.$ajax.post('/ycsqInfo',param).then((res)=>{
+          if (res.data.status) {
+            console.log(res.data),
+              this.managertable = res.data.ycsqlist;
+            this.pagecount = res.data.pagecount;
+            console.log("this.pagecount"+this.pagecount)
+
+          } else {
+            console.log(res.data.status)
+            this.$message({
+              type: 'error',
+              message: '参数错误',
+              showClose: true
+            })
+          }
+        }).catch((err) => {
+          this.$message({
+            type: 'error',
+            message: '网络错误，请重试',
+            showClose: true
+          })
+        })
+      },
+      handleChangepage(val) {
+        console.log(`当前页: ${val}`);
+        this.currentpage = val;
+        console.log("dangqianye",this.currentpage);
+        this.handlePageSearch(this.currentpage,10);
+      },
+      apply(){
             this.dialogVisible=true;
-          },
+      },
       lastday(){
         this.value1 = new Date(this.value1.getTime()-3600*1000*24);
       },
