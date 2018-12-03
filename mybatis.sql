@@ -10,10 +10,27 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2018-11-30 18:10:52
+Date: 2018-12-03 18:05:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for apinfo
+-- ----------------------------
+DROP TABLE IF EXISTS `apinfo`;
+CREATE TABLE `apinfo` (
+  `vehnum` varchar(11) DEFAULT NULL,
+  `driver` varchar(255) DEFAULT NULL,
+  `sqid` int(11) DEFAULT NULL,
+  `kssj` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `jssj` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of apinfo
+-- ----------------------------
+INSERT INTO `apinfo` VALUES ('A1', '1', '3', '2018-12-03 17:58:01', '2018-12-02 17:50:53');
 
 -- ----------------------------
 -- Table structure for baoinfo
@@ -112,13 +129,14 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `userrole` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'lyx', '616');
+INSERT INTO `users` VALUES ('1', 'lyx', '616', '1');
 
 -- ----------------------------
 -- Table structure for veh
@@ -232,22 +250,27 @@ CREATE TABLE `ycspinfo` (
 -- ----------------------------
 DROP TABLE IF EXISTS `ycsqinfo`;
 CREATE TABLE `ycsqinfo` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `yccs` varchar(255) DEFAULT NULL,
   `ycr` varchar(255) DEFAULT NULL,
-  `ycsj` varchar(255) DEFAULT NULL,
+  `ycsj` datetime DEFAULT NULL,
   `cssj` varchar(255) DEFAULT NULL,
   `ycsy` varchar(255) DEFAULT NULL,
   `mdd` varchar(255) DEFAULT NULL,
   `isnight` varchar(255) DEFAULT NULL,
   `czrs` varchar(255) DEFAULT NULL,
   `sfxysj` varchar(255) DEFAULT NULL,
-  `nfhsj` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `nfhsj` datetime DEFAULT NULL,
   `csldyj` varchar(255) DEFAULT NULL,
   `jczps` varchar(255) DEFAULT NULL,
+  `apstatus` int(5) DEFAULT '0',
+  `spstatus` int(5) DEFAULT '0',
+  `sfwfyc` varchar(255) DEFAULT NULL,
+  `sqsj` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ycsqinfo
 -- ----------------------------
+INSERT INTO `ycsqinfo` VALUES ('3', '456', '456', '2019-01-02 00:00:00', '456', '456', '456', '否', '456', '否', '2018-12-18 00:00:00', null, null, '0', '1', null, '2018-12-03 14:43:49');
