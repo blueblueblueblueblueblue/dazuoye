@@ -1,32 +1,43 @@
 package com.nuaa.ssm.domain;
 
+import org.springframework.format.datetime.standard.DateTimeFormatterFactoryBean;
+
 import java.util.Date;
 
 public class Ycsq {
     private int id;
     private String yccs;
     private String ycr;
-    private String ycsj;
+    private java.sql.Date ycsj;
     private String cssj;
     private String ycsy;
     private String mdd;
     private String isnight;
     private String czrs;
     private String sfxysj;
-    private String nfhsj;
+    private java.sql.Date nfhsj;
     private String cxldyj;
     private String jczps;
     private String csspr;
     private String apqk;
     private Date sqsj;
-    private int status;
+    private int apstatus;
+    private int spstatus;
 
-    public int getStatus() {
-        return status;
+    public int getApstatus() {
+        return apstatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setApstatus(int apstatus) {
+        this.apstatus = apstatus;
+    }
+
+    public int getSpstatus() {
+        return spstatus;
+    }
+
+    public void setSpstatus(int spstatus) {
+        this.spstatus = spstatus;
     }
 
     public String getCsspr() {
@@ -77,13 +88,7 @@ public class Ycsq {
         this.ycr = ycr;
     }
 
-    public String getYcsj() {
-        return ycsj;
-    }
 
-    public void setYcsj(String ycsj) {
-        this.ycsj = ycsj;
-    }
 
     public String getCssj() {
         return cssj;
@@ -133,11 +138,19 @@ public class Ycsq {
         this.sfxysj = sfxysj;
     }
 
-    public String getNfhsj() {
+    public java.sql.Date getYcsj() {
+        return ycsj;
+    }
+
+    public void setYcsj(java.sql.Date ycsj) {
+        this.ycsj = ycsj;
+    }
+
+    public java.sql.Date getNfhsj() {
         return nfhsj;
     }
 
-    public void setNfhsj(String nfhsj) {
+    public void setNfhsj(java.sql.Date nfhsj) {
         this.nfhsj = nfhsj;
     }
 

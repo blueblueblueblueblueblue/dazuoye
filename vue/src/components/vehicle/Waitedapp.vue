@@ -18,42 +18,42 @@
             @current-change="handleCurrentChange"
             style="width: 100%">
             <el-table-column
-              prop="status"
+              prop="apstatus"
               label="状态"
               width="40">
               <template slot-scope="scope">
-                <i class="el-icon-success " v-if="scope.row.status=='1'"></i>
-                <i class="el-icon-info" v-else-if="scope.row.status=='2'"></i>
+                <i class="el-icon-success " v-if="scope.row.apstatus=='1'"></i>
+                <i class="el-icon-info" v-else-if="scope.row.apstatus=='2'"></i>
                 <i class="el-icon-error" v-else></i>
               </template>
             </el-table-column>
             <el-table-column
-              prop="time"
+              prop="ycsj"
               label="用车时间"
               width="180">
             </el-table-column>
             <el-table-column
-              prop="person"
+              prop="ycr"
               label="用车人"
               width="180">
             </el-table-column>
             <el-table-column
-              prop="reason"
+              prop="ycsy"
               label="用车事由"
               width="180">
             </el-table-column>
             <el-table-column
-              prop="peoplenum"
+              prop="ycrs"
               label="人数"
               width="180">
             </el-table-column>
             <el-table-column
-              prop="dest"
+              prop="mdd"
               label="目的地"
               width="180">
             </el-table-column>
             <el-table-column
-              prop="isneed"
+              prop="sfxysj"
               label="需要司机"
               width="180">
             </el-table-column>
@@ -76,6 +76,16 @@
           </el-table>
         </el-col>
     </el-row>
+    <el-row>
+      <el-col :span="24" style="margin-left: 100px">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-count="pagecount"
+          @current-change="handleChangepage">
+        </el-pagination>
+      </el-col>
+    </el-row>
   </el-row>
 </template>
 
@@ -84,47 +94,97 @@
         name: "Waitedapp",
       data(){
           return{
-            tableData: [{
-              vehnum: '123456',
-              versionnum: '奔驰',
-              baorecord: '10',
-              weirecord: '23',
-              shirecord: '18',
-              fixrecord: '16',
-            }, {
-              vehnum: '456789',
-              versionnum: '五菱宏光',
-              baorecord: '12',
-              weirecord: '23',
-              shirecord: '18',
-              fixrecord: '16',
-            }, {
-              vehnum: '456132',
-              versionnum: 'jeep',
-              baorecord: '23',
-              weirecord: '23',
-              shirecord: '18',
-              fixrecord: '16',
-            }, {
-              vehnum: '132456',
-              versionnum: 'BMW',
-              baorecord: '23',
-              weirecord: '23',
-              shirecord: '18',
-              fixrecord: '16',
-            }],
+            tableData: [],
             currentRow:null,
+            pagecount:0,
+            currentpage:1,
           }
       },
+      mounted:function(){
+          this.handlePageSearch(1,10);
+      },
       methods:{
+        handlePageSearch(currentpage,limit){
+          let param = new URLSearchParams();
+          param.append("currentpage", currentpage);
+          param.append("limit", limit);
+          this.$ajax.post('/waitedSpInfo',param).then((res)=>{
+            if (res.data.status) {
+              console.log(res.data),
+                this.tableData = res.data.ycsqlist;
+              this.pagecount = res.data.pagecount;
+              console.log("this.pagecount"+this.pagecount)
+
+            } else {
+              console.log(res.data.status)
+              this.$message({
+                type: 'error',
+                message: '参数错误',
+                showClose: true
+              })
+            }
+          }).catch((err) => {
+            this.$message({
+              type: 'error',
+              message: '网络错误，请重试',
+              showClose: true
+            })
+          })
+        },
         handleCurrentChange(val) {
           this.currentRow = val;
         },
         handleEdit(index, row) {
-          console.log(index, row);
+          var sqid = this.tableData[index].sqid;
+          let param = new URLSearchParams();
+          param.append("sqid",sqid);
+          this.$ajax.post('/spTy',param).then((res)=>{
+            if (res.data.status) {
+              this.$message({
+                type: 'success',
+                message: '已同意!'
+              });
+            } else {
+              console.log(res.data.status)
+              this.$message({
+                type: 'error',
+                message: '参数错误',
+                showClose: true
+              })
+            }
+          }).catch((err) => {
+            this.$message({
+              type: 'error',
+              message: '网络错误，请重试',
+              showClose: true
+            })
+          })
         },
         handleDelete(index, row) {
-          console.log(index, row);
+          var sqid = this.tableData[index].sqid;
+          let param = new URLSearchParams();
+          param.append("sqid",sqid);
+          this.$ajax.post('/spNty',param).then((res)=>{
+            if (res.data.status) {
+              this.$message({
+                type: 'success',
+                message: '已驳回!'
+              });
+            } else {
+              console.log(res.data.status)
+              this.$message({
+                type: 'error',
+                message: '参数错误',
+                showClose: true
+              })
+            }
+          }).catch((err) => {
+            this.$message({
+              type: 'error',
+              message: '网络错误，请重试',
+              showClose: true
+            })
+          })
         },
       }
     }

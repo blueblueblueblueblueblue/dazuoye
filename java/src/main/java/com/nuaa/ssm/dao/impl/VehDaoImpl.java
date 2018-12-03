@@ -46,5 +46,41 @@ public class VehDaoImpl extends SqlSessionDaoSupport implements BaseDao<Veh> {
         return getSqlSession().delete("veh.delete",vehnum);
     }
 
+    public List<Veh> selectWaitedApPage(int offset, int len) {
+        return null;
+    }
+
+    public int selectWaitedApCount() {
+        return 0;
+    }
+
+    public void updateTy(int id) {
+
+    }
+
+    public void updateNty(int id) {
+
+    }
+
+    public int selectSpedCount() {
+        return 0;
+    }
+
+    public List<Veh> selectSpedPage(int offset, int len) {
+        return null;
+    }
+
+    public List<Veh> selectWaitedArrPage(int offset, int len) {
+        return null;
+    }
+
+    public int selectWaitedArrCount() {
+        return 0;
+    }
+
+    public List<Veh> selectWaitedArr(int offset, int len) {
+        return null;
+    }
+
 
 }

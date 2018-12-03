@@ -117,6 +117,11 @@ public class VehServiceImpl extends BaseServiceImpl<Veh> implements VehService {
         return enable;
     }
 
+    public List<Veh> selectLimitList(){
+        List<Veh> list = selectAll();
+        return list;
+    }
+
     public int deleteByVehnum(String vehnum) {
         return getDao().deleteByVehnum(vehnum);
     }

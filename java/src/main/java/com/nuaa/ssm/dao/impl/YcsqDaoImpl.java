@@ -47,5 +47,37 @@ public class YcsqDaoImpl extends SqlSessionDaoSupport implements BaseDao<Ycsq> {
         return getSqlSession().delete("ycsq.delete",vehnum);
     }
 
+    public List<Ycsq> selectWaitedApPage(int offset, int len) {
+        return getSqlSession().selectList("ycsq.selectWaitedApPage",new RowBounds(offset,len));
+    }
+
+    public int selectWaitedApCount() {
+        return getSqlSession().selectOne("ycsq.selectWaitedApCount");
+    }
+
+    public void updateTy(int id) {
+        getSqlSession().update("ycsq.update",id);
+    }
+
+    public void updateNty(int id) {
+        getSqlSession().update("ycsq.updateNty",id);
+    }
+
+    public int selectSpedCount() {
+        return getSqlSession().selectOne("ycsq.selectSpedCount");
+    }
+
+    public List<Ycsq> selectSpedPage(int offset, int len) {
+        return getSqlSession().selectList("ycsq.selectSpedPage",new RowBounds(offset,len));
+    }
+
+    public List<Ycsq> selectWaitedArrPage(int offset, int len) {
+        return getSqlSession().selectList("ycsq.selectWaitedArrPage",new RowBounds(offset,len));
+    }
+
+    public int selectWaitedArrCount(){
+        return getSqlSession().selectOne("ycsq.selectWaitedArrCount");
+    }
+
 
 }

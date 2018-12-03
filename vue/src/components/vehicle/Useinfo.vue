@@ -91,63 +91,56 @@
           width="50%"
           center>
           <el-form :model="ruleForm1" :rules="rules1" status-icon inline  ref="ruleForm1" label-width="140px" size="small" class="demo-ruleForm">
-            <el-form-item label="用车处室" prop="vennum">
-              <el-input v-model="ruleForm1.vennum"></el-input>
+            <el-form-item label="用车处室" prop="yccs">
+              <el-input v-model="ruleForm1.yccs"></el-input>
             </el-form-item>
-            <el-form-item label="用车人" prop="venversion">
-              <el-input v-model="ruleForm1.venversion"></el-input>
+            <el-form-item label="用车人" prop="ycr">
+              <el-input v-model="ruleForm1.ycr"></el-input>
             </el-form-item>
-            <el-form-item label="处室司机" prop="seatnum">
-              <el-input v-model="ruleForm1.seatnum"></el-input>
+            <el-form-item label="处室司机" prop="cssj">
+              <el-input v-model="ruleForm1.cssj"></el-input>
             </el-form-item>
-            <el-form-item label="乘坐人数" prop="color">
-              <el-input v-model="ruleForm1.color"></el-input>
+            <el-form-item label="乘坐人数" prop="czrs">
+              <el-input v-model="ruleForm1.czrs"></el-input>
             </el-form-item>
-            <el-form-item label="目的地" prop="enginenum">
-              <el-input v-model="ruleForm1.enginenum"></el-input>
+            <el-form-item label="目的地" prop="mdd">
+              <el-input v-model="ruleForm1.mdd"></el-input>
             </el-form-item>
-            <el-form-item label="用车时间">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm1.date1" style="width: 100%;"></el-date-picker>
-              </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="11">
-                <el-time-picker type="fixed-time" placeholder="选择时间" v-model="ruleForm1.date2" style="width: 100%;"></el-time-picker>
+            <br>
+            <el-form-item label="用车时间"  prop="ycsj">
+              <el-col :span="21">
+                <el-date-picker type="datetime" placeholder="选择日期" v-model="ruleForm1.ycsj" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
-            <el-form-item label="拟返回时间">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm1.date1" style="width: 100%;"></el-date-picker>
-              </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="11">
-                <el-time-picker type="fixed-time" placeholder="选择时间" v-model="ruleForm1.date2" style="width: 100%;"></el-time-picker>
+            <el-form-item label="拟返回时间"  prop="nfhsj">
+              <el-col :span="21">
+                <el-date-picker type="datetime" placeholder="选择日期" v-model="ruleForm1.nfhsj" style="width: 100%;"></el-date-picker>
               </el-col>
             </el-form-item>
             <br>
-            <el-form-item label="夜间用车" prop="isscrap">
-              <el-radio-group v-model="ruleForm1.isscrap">
-                <el-radio label="否"></el-radio>
-                <el-radio label="是"></el-radio>
+            <el-form-item label="夜间用车" prop="isnight">
+              <el-radio-group v-model="ruleForm1.isnight">
+                <el-radio label="否" name="0"></el-radio>
+                <el-radio label="是" name="1"></el-radio>
               </el-radio-group>
             </el-form-item>
             <br>
-            <el-form-item label="外阜用车" prop="isscrap">
-              <el-radio-group v-model="ruleForm1.isscrap">
-                <el-radio label="否"></el-radio>
-                <el-radio label="是"></el-radio>
+            <el-form-item label="外阜用车" prop="sfwfyc">
+              <el-radio-group v-model="ruleForm1.sfwfyc">
+                <el-radio label="否" name="0"></el-radio>
+                <el-radio label="是" name="1"></el-radio>
               </el-radio-group>
             </el-form-item>
             <br>
-            <el-form-item label="需要司机" prop="isscrap">
-              <el-radio-group v-model="ruleForm1.isscrap">
-                <el-radio label="否"></el-radio>
-                <el-radio label="是"></el-radio>
+            <el-form-item label="需要司机" prop="sfxysj">
+              <el-radio-group v-model="ruleForm1.sfxysj">
+                <el-radio label="否" name="0"></el-radio>
+                <el-radio label="是" name="1"></el-radio>
               </el-radio-group>
             </el-form-item>
             <br>
-            <el-form-item label="用车事由" prop="remarks">
-              <el-input type="textarea" v-model="ruleForm1.remarks"></el-input>
+            <el-form-item label="用车事由" prop="ycsy">
+              <el-input type="textarea" v-model="ruleForm1.ycsy"></el-input>
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
@@ -166,12 +159,12 @@
           border
           style="width: 100%">
           <el-table-column
-            prop="status"
+            prop="apstatus"
             label="状态"
             width="40">
             <template slot-scope="scope">
-              <i class="el-icon-success " v-if="scope.row.status=='1'"></i>
-              <i class="el-icon-info" v-else-if="scope.row.status=='0'"></i>
+              <i class="el-icon-success " v-if="scope.row.apstatus=='1'"></i>
+              <i class="el-icon-info" v-else-if="scope.row.apstatus=='0'"></i>
               <i class="el-icon-error" v-else></i>
             </template>
           </el-table-column>
@@ -242,68 +235,52 @@
       data(){
           return{
             ruleForm1: {
-              vennum: '',
-              venversion: '',
-              seatnum: '',
-              color: '',
-              enginenum: '',
-              gasvol:'',
-              vendif:'',
-              venuse:'',
-              policynum:'',
-              framenum:'',
-              cardnum:'',
-              oils:'',
-              date:'',
-              supplier:'',
-              weight:'',
-              traval:'',
-              isscrap:false,
-              remarks:'',
-
+              yccs: '',
+              ycr: '',
+              cssj: '',
+              czrs: '',
+              mdd: '',
+              ycsj:'',
+              nfhsj:'',
+              isnight:'',
+              sfwfyc:'',
+              sfxysj:'',
+              ycsy:'',
             },
             rules1: {
-              vennum: [
-                { required: true, message: '请输入牌照号', trigger: 'blur' },
-                { min: 3, max: 6, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              yccs: [
+                { required: true, message: '请输入', trigger: 'blur' },
+
               ],
-              venversion: [
-                { required: true, message: '请输入厂牌型号', trigger: 'change' }
+              ycr: [
+                { required: true, message: '请输入', trigger: 'change' }
               ],
-              seatnum: [
-                { required: true, message: '请输入座位数', trigger: 'change' }
+              cssj: [
+                { required: true, message: '请输入', trigger: 'change' }
               ],
-              color: [
-                { required: true, message: '请输入颜色', trigger: 'change' }
+              ycsj: [
+                { required: true, message: '请输入', trigger: 'change' }
               ],
-              enginenum: [
-                { required: true, message: '请输入发动机号', trigger: 'change' }
+              nfhsj: [
+                { required: true, message: '请输入', trigger: 'change' }
               ],
-              gasvol: [
-                { required: true, message: '请输入排气量', trigger: 'change' }
-              ],
-              vendif: [
-                { required: true, message: '请选择车辆分类', trigger: 'change' }
-              ],
-              venuse: [
-                { required: true, message: '请选择车辆用途', trigger: 'change' }
-              ],
-              policynum: [
-                { required: true, message: '请输入保险单号', trigger: 'change' }
-              ],
-              framenum: [
-                { required: true, message: '请输入车架号', trigger: 'change' }
-              ],
-              cardnum: [
-                { required: true, message: '请输入加油卡号', trigger: 'change' }
-              ],
-              oils: [
-                { required: true, message: '请选择油品', trigger: 'change' }
+              mdd: [
+                { required: true, message: '请输入', trigger: 'change' }
               ],
 
-              date: [
-                { type: 'date', required: true, message: '请选择购置日期', trigger: 'change' }
+              isnight: [
+                { required: true, message: '请选择', trigger: 'change' }
               ],
+              sfwfyc: [
+                { required: true, message: '请输入', trigger: 'change' }
+              ],
+              sfxysj: [
+                { required: true, message: '请输入', trigger: 'change' }
+              ],
+              ycsy: [
+                { required: true, message: '请输入', trigger: 'change' }
+              ],
+
 
 
             },
@@ -430,10 +407,36 @@
       },
       submitForm1(formName) {
         this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
+          if (valid){
+            console.log(JSON.stringify(this.ruleForm1));
+            let param = new URLSearchParams();
+            param.append("ruleForm1", JSON.stringify(this.ruleForm1));
+            this.$ajax.post('/addYcsq',param).then((res)=>{
+              if (res.data.status) {
+                console.log(res.data);
+
+              } else {
+                console.log(res.data.status)
+                this.$message({
+                  type: 'error',
+                  message: '参数错误',
+                  showClose: true
+                })
+              }
+            }).catch((err) => {
+              this.$message({
+                type: 'error',
+                message: '网络错误，请重试',
+                showClose: true
+              })
+            })
+            this.$message({
+              type: 'success',
+              message: '修改成功',
+              showClose: true
+            })
             this.dialogVisible = false;
-          } else {
+          }else {
             console.log('error submit!!');
             return false;
           }

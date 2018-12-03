@@ -12,7 +12,16 @@
 
 <script>
     export default {
-        name: "Weiinfo"
+        name: "Weiinfo",
+      data(){
+        return{
+
+        }
+      },
+      mounted:function () {
+        var vehnum = this.$route.query.vehnum;
+        console.log("vehnum:"+vehnum);
+      }
     }
 </script>
 

@@ -44,4 +44,40 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements BaseDao<User> {
     public int deleteByVehnum(String vehnum) {
         return 0;
     }
+
+    public List<User> selectWaitedApPage(int offset, int len) {
+        return null;
+    }
+
+    public int selectWaitedApCount() {
+        return 0;
+    }
+
+    public void updateTy(int id) {
+
+    }
+
+    public void updateNty(int id) {
+
+    }
+
+    public int selectSpedCount() {
+        return 0;
+    }
+
+    public List<User> selectSpedPage(int offset, int len) {
+        return null;
+    }
+
+    public List<User> selectWaitedArrPage(int offset, int len) {
+        return null;
+    }
+
+    public int selectWaitedArrCount() {
+        return 0;
+    }
+
+    public List<User> selectWaitedArr(int offset, int len) {
+        return null;
+    }
 }

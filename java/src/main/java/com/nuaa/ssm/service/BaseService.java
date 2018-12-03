@@ -22,4 +22,6 @@ public interface BaseService<T> {
     public List<T> selectPage(int offset, int len) ;
 
     public int selectCount();
+
+    
 }

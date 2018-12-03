@@ -47,5 +47,41 @@ public class BaoDaoImpl extends SqlSessionDaoSupport implements BaseDao<Bao> {
         return getSqlSession().delete("bao.deleteAll",vehnum);
     }
 
+    public List<Bao> selectWaitedApPage(int offset, int len) {
+        return null;
+    }
+
+    public int selectWaitedApCount() {
+        return 0;
+    }
+
+    public void updateTy(int id) {
+
+    }
+
+    public void updateNty(int id) {
+
+    }
+
+    public int selectSpedCount() {
+        return 0;
+    }
+
+    public List<Bao> selectSpedPage(int offset, int len) {
+        return null;
+    }
+
+    public List<Bao> selectWaitedArrPage(int offset, int len) {
+        return null;
+    }
+
+    public int selectWaitedArrCount() {
+        return 0;
+    }
+
+    public List<Bao> selectWaitedArr(int offset, int len) {
+        return null;
+    }
+
 
 }

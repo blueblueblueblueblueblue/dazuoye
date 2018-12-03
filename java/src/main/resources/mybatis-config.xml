@@ -7,11 +7,13 @@
         <typeAlias type="com.nuaa.ssm.domain.User" alias="_User"/>
         <typeAlias type="com.nuaa.ssm.domain.Veh" alias="_Veh"/>
         <typeAlias type="com.nuaa.ssm.domain.Ycsq" alias="_Ycsq"/>
+        <typeAlias type="com.nuaa.ssm.domain.Ycap" alias="_Ycap"/>
     </typeAliases>
     <!-- 引入映射文件 -->
     <mappers>
         <mapper resource="UserMapper.xml"/>
         <mapper resource="VehMapper.xml"/>
         <mapper resource="YcsqMapper.xml"/>
+        <mapper resource="ApMapper.xml"/>
     </mappers>
 </configuration>

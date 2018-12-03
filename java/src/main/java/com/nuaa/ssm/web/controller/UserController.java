@@ -55,7 +55,7 @@ public class UserController {
         else {
             json.put("status","true");
             json.put("username",session.getAttribute("username"));
-            json.put("userrole","3");
+            json.put("userrole",'3');
         }
         writer.print(json);
         writer.flush();

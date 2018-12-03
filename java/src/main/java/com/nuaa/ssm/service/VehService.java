@@ -24,4 +24,6 @@ public interface VehService extends BaseService<Veh> {
     public int [] selectLimit();
 
     public int [] selectEnable();
+
+    public List<Veh> selectLimitList();
 }

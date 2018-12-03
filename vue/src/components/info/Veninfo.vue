@@ -66,7 +66,7 @@
           label="保养记录"
           width="120">
           <template slot-scope="scope" >
-            <a href="#">查看</a>
+            <a @click="searchbao(scope.row.vehnum)" href="#">查看</a>
             <el-badge :value="scope.row.baocount" type="success"/>
 
 
@@ -77,7 +77,7 @@
             label="违章记录"
             width="120">
           <template slot-scope="scope" >
-            <a href="#">查看</a>
+            <a @click="searchwei(scope.row.vehnum)" href="#">查看</a>
             <el-badge :value="scope.row.weicount" type="warning" />
 
 
@@ -88,7 +88,7 @@
           label="事故记录"
           width="120">
           <template slot-scope="scope" >
-            <a href="#">查看</a>
+            <a @click="searchshi(scope.row.vehnum)" href="#">查看</a>
             <el-badge :value="scope.row.shicount" type="danger" />
 
 
@@ -99,7 +99,7 @@
           label="维修记录"
           width="120">
           <template slot-scope="scope" >
-            <a href="#">查看</a>
+            <a @click="searchrep(scope.row.vehnum)" href="#">查看</a>
             <el-badge :value="scope.row.repcount" type="info" />
 
 
@@ -464,6 +464,22 @@
 
         },
       methods:{
+        searchbao(vehnum){
+          this.$router.push({path:'/baoinfo',query:{vehnum:vehnum}});
+          console.log("vehnumzhiqian"+vehnum);
+        },
+        searchrep(vehnum){
+          this.$router.push({path:'/repinfo',query:{vehnum:vehnum}});
+          console.log("vehnumzhiqian"+vehnum);
+        },
+        searchshi(vehnum){
+          this.$router.push({path:'/shiinfo',query:{vehnum:vehnum}});
+          console.log("vehnumzhiqian"+vehnum);
+        },
+        searchwei(vehnum){
+          this.$router.push({path:'/weiinfo',query:{vehnum:vehnum}});
+          console.log("vehnumzhiqian"+vehnum);
+        },
         handlePageSearch(currentpage,limit){
           let param = new URLSearchParams();
           param.append("currentpage", currentpage);

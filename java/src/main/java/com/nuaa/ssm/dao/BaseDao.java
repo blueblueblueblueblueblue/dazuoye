@@ -21,4 +21,20 @@ public interface BaseDao<T> {
     public int selectCount();
 
     public int deleteByVehnum(String vehnum);
+
+    public List<T> selectWaitedApPage(int offset,int len);
+
+    public int selectWaitedApCount();
+
+    public void updateTy(int id);
+
+    public void updateNty(int id);
+
+    public int selectSpedCount();
+
+    public List<T> selectSpedPage(int offset,int len);
+
+    public List<T> selectWaitedArrPage(int offset,int len);
+
+    public int selectWaitedArrCount();
 }

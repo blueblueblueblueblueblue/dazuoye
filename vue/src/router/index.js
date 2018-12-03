@@ -65,11 +65,11 @@ let router = new Router({
       iconCls: 'iconfont icon-users', // 图标样式class
       children: [
         {path: '/useinfo', component:Useinfo, name: '用车申请',userrole:1, menuShow: true},
-        {path: '/waitedapp', component:Waitedapp, name: '待审批申请', userrole:2, menuShow: true},
-        {path: '/aprovedapp', component:Aprovedapp, name: '已审批申请', userrole:2, menuShow: true},
+        {path: '/waitedapp', component:Waitedapp, name: '待审批申请', userrole:1, menuShow: true},
+        {path: '/aprovedapp', component:Aprovedapp, name: '已审批申请', userrole:1, menuShow: true},
 
-        {path: '/waitedarr', component:Waitedarr, name: '待安排用车', userrole:3, menuShow: true},
-        {path: '/arranged', component:Arranged, name: '已安排用车',  userrole:3, menuShow: true},
+        {path: '/waitedarr', component:Waitedarr, name: '待安排用车', userrole:1, menuShow: true},
+        {path: '/arranged', component:Arranged, name: '已安排用车',  userrole:1, menuShow: true},
 
       ]
     },

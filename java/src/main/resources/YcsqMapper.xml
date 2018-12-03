@@ -4,25 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ycsq">
     <insert id="insert">
-      insert into ycsq(vehnum,vehversion,enginenum,framenum,gasvol,
-                        seatsnum,weight,color,purdate,vehdif,
-                        vehusage,policynum,repaircardnum,oilcardnum,supplier,
-                        travel,remarks,isscrap,oildif)
-      values(#{vehnum},#{vehversion},#{enginenum},#{framenum},#{gasvol},
-              #{seatsnum},#{weight},#{color},#{purdate},#{vehdif},
-              #{vehusage},#{policynum},#{repaircardnum},#{oilcardnum},#{supplier},
-              #{travel},#{remarks},#{isscrap},#{oildif})
+      insert into ycsqinfo(yccs,ycr,ycsj,cssj,ycsy,mdd,isnight,czrs,sfxysj,nfhsj,sqsj)
+      values(#{yccs},#{ycr},#{ycsj},#{cssj},#{ycsy},#{mdd},#{isnight},#{czrs},#{sfxysj},#{nfhsj},#{sqsj})
     </insert>
     <update id="update">
-        update veh
-        set vehversion = #{vehversion} , enginenum = #{enginenum} ,framenum = #{framenum},gasvol = #{gasvol},
-            seatsnum = #{seatsnum},weight = #{weight},color = #{color},purdate = #{purdate},vehdif = #{vehdif},
-            vehusage = #{vehusage}, policynum = #{policynum},repaircardnum = #{repaircardnum},oilcardnum = #{oilcardnum},
-            supplier = #{supplier},travel = #{travel},remarks = #{remarks},isscrap = #{isscrap},oildif = #{oildif}
-            where vehnum = #{vehnum}
+        update ycsqinfo
+        set spstatus = 1
+            where id = #{id}
     </update>
-    <delete id="delete" parameterType="String">
-        delete from veh where vehnum = #{vehnum}
+    <update id="updateNty">
+        update ycsqinfo
+        set spstatus = 2
+            where id = #{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        delete from ycsqinfo where id = #{id}
     </delete>
 
     <!-- selectOne -->
@@ -64,10 +60,48 @@
       from ycsqinfo y limit #{offset},#{limit}
     </select>
 
+    <select id="selectWaitedApPage" resultType="_Ycsq">
+      select
+        *
+      from ycsqinfo y where y.spstatus = 0 limit #{offset},#{limit}
+    </select>
+
+    <select id="selectSpedPage" resultType="_Ycsq">
+      select
+        *
+      from ycsqinfo y where y.spstatus != 0 limit #{offset},#{limit}
+    </select>
+
+    <select id="selectWaitedArrPage" resultType="_Ycsq">
+      select
+        *
+      from ycsqinfo y where y.apstatus = 0 and
+      y.spstatus = 1
+      limit #{offset},#{limit}
+    </select>
+
+    <select id="selectWaitedArrCount" resultType="int">
+      select
+        count(id)
+      from ycsqinfo y where y.apstatus = 0 and y.spstatus = 1
+    </select>
+
+    <select id="selectSpedCount" resultType="int">
+      select
+        count(id)
+      from ycsqinfo y where y.spstatus != 0
+    </select>
     <!-- selectCount -->
     <select id="selectCount" resultType="int">
       select
         count(id)
       from ycsqinfo y
     </select>
+
+    <select id="selectWaitedApCount" resultType="int">
+      select
+        count(id)
+      from ycsqinfo y where y.spstatus = 0
+    </select>
+
 </mapper>
