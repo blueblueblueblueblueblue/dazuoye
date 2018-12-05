@@ -33,7 +33,7 @@
 
 
          &nbsp;&nbsp;
-       <el-button type="primary" icon="el-icon-search">查询</el-button>
+       <el-button type="primary" icon="el-icon-search" @click="searchByNum">查询</el-button>
 
        &nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -464,6 +464,35 @@
 
         },
       methods:{
+        searchByNum(){
+          let param = new URLSearchParams();
+          param.append("currentpage", 1);
+          param.append("limit", 10);
+          param.append("vehnum",this.state4);
+          param.append("vehversion",this.state5);
+          this.$ajax.post('/searchByNum',param).then((res)=>{
+            if (res.data.status) {
+              console.log(res.data),
+                this.tableData = res.data.vehlist;
+              this.pagecount = res.data.pagecount;
+              console.log("this.pagecount"+this.pagecount)
+
+            } else {
+              console.log(res.data.status)
+              this.$message({
+                type: 'error',
+                message: '参数错误',
+                showClose: true
+              })
+            }
+          }).catch((err) => {
+            this.$message({
+              type: 'error',
+              message: '网络错误，请重试',
+              showClose: true
+            })
+          })
+        },
         searchbao(vehnum){
           this.$router.push({path:'/baoinfo',query:{vehnum:vehnum}});
           console.log("vehnumzhiqian"+vehnum);

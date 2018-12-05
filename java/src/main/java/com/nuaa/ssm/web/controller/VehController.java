@@ -5,6 +5,8 @@ import com.nuaa.ssm.domain.Veh;
 import com.nuaa.ssm.service.UserService;
 import com.nuaa.ssm.service.VehService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +21,15 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  */
 @Controller
 public class VehController {
+    private Logger logger = LoggerFactory.getLogger(VehController.class);
 
     @Resource(name="vehService")
     private VehService vehServices ;
@@ -32,7 +37,7 @@ public class VehController {
     @RequestMapping("/vehInfo")
     public void vehinfo(String currentpage,String limit, HttpServletResponse response, Model model, HttpSession session) throws IOException {
         int page = Integer.parseInt(currentpage);
-
+        logger.info("currentpage"+currentpage);
         int limint = Integer.parseInt(limit);
         int offint = (page-1)*limint;
         int count = vehServices.selectCount();
@@ -65,12 +70,61 @@ public class VehController {
         writer.close();
     }
 
+    @RequestMapping("/searchByNum")
+    public void searchByNum(String currentpage,String limit,String vehnum,String vehversion,HttpServletResponse response){
+        int page = Integer.parseInt(currentpage);
+        logger.info("currentpage"+currentpage);
+        int limint = Integer.parseInt(limit);
+        int offint = (page-1)*limint;
+        Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map1 = new HashMap<String, Object>();
+        map.put("vehnum",'%'+vehnum+'%');
+        map.put("vehversion",'%'+vehversion+'%');
+        map.put("offset",Integer.parseInt(currentpage));
+        map.put("limit",limint);
+        map1.put("vehnum",'%'+vehnum+'%');
+        map1.put("vehversion",'%'+vehnum+'%');
+        int count = vehServices.selectByNumCount(map1);
+        int pagecount = count/limint;
+        if ((count%limint)>0){
+            pagecount++;
+        }
+        List<Veh> list = new ArrayList<Veh>();
+        list=vehServices.selectByNum(map);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=utf-8");
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+        JSONObject json = new JSONObject();
+        JSONArray vehList = new JSONArray();
+        for (Veh veh:list){
+            JSONObject vehli = new JSONObject();
+            vehli.put("vehnum",veh.getVehnum());
+            vehli.put("vehversion",veh.getVehversion());
+            vehli.put("baocount",veh.getBaocount());
+            vehli.put("weicount",veh.getWeicount());
+            vehli.put("shicount",veh.getShicount());
+            vehli.put("repcount",veh.getRepcount());
+            vehList.add(vehli);
+        }
+        json.put("vehlist",vehList);
+        json.put("status","true");
+        json.put("pagecount",pagecount);
+        writer.print(json);
+        writer.flush();
+        writer.close();
+    }
+
     @RequestMapping("/addVeh")
     public void addVeh(String ruleForm1,HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         //System.out.println(ruleForm1);
         Veh vehjson = JSON.parseObject(ruleForm1,Veh.class);
-        System.out.println(vehjson.getVehversion());
+        logger.info("vehnum:"+vehjson.getVehnum());
         vehServices.insert(vehjson);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=utf-8");
@@ -143,6 +197,7 @@ public class VehController {
             writer = response.getWriter();
             writer.print(reJson);
         } catch (IOException e) {
+            logger.error(""+e.getMessage());
             e.printStackTrace();
         }finally {
             writer.flush();

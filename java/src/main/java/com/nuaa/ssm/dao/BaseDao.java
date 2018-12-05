@@ -1,6 +1,10 @@
 package com.nuaa.ssm.dao;
 
+import com.nuaa.ssm.domain.Veh;
+import com.nuaa.ssm.domain.Ycsq;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基本Dao接口
@@ -30,6 +34,8 @@ public interface BaseDao<T> {
 
     public void updateNty(int id);
 
+    public void updateArr(int id);
+
     public int selectSpedCount();
 
     public List<T> selectSpedPage(int offset,int len);
@@ -37,4 +43,16 @@ public interface BaseDao<T> {
     public List<T> selectWaitedArrPage(int offset,int len);
 
     public int selectWaitedArrCount();
+
+    public List<T> selectArrangedPage(int offset,int len);
+
+    public int selectArrangedCount();
+
+    public int selectByNumCount(Map<String,Object> map);
+
+    public List<Veh> selectByNum(Map<String,Object> map);
+
+    public List<Ycsq> selectByDate(Map<String,Object> map);
+
+    public int selectByDateNum(Map<String,Object> map);
 }

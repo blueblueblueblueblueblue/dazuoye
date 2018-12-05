@@ -18,6 +18,6 @@ public interface YcapService extends BaseService<Ycap> {
 
     public User selectByuname(String username);
 
-    public List<Ycap> selectUnable(Date date);
+    public List<String> selectUnable(Date date);
 
 }

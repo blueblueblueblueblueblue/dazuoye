@@ -13,10 +13,7 @@ import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -117,9 +114,24 @@ public class VehServiceImpl extends BaseServiceImpl<Veh> implements VehService {
         return enable;
     }
 
-    public List<Veh> selectLimitList(){
+    public List<String> selectLimitList(){
         List<Veh> list = selectAll();
-        return list;
+        List<String> list1 = new ArrayList<String>();
+        CheckLimit ck = new CheckLimit();
+        for (Veh veh:list){
+            if (ck.check(veh.getVehnum())){
+                list1.add(veh.getVehnum());
+            }
+        }
+        return list1;
+    }
+
+    public List<Veh> selectByNum(Map<String, Object> map) {
+        return getDao().selectByNum(map);
+    }
+
+    public int selectByNumCount(Map<String, Object> map) {
+        return getDao().selectByNumCount(map);
     }
 
     public int deleteByVehnum(String vehnum) {

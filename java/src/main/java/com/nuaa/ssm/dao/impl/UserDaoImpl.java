@@ -2,11 +2,14 @@ package com.nuaa.ssm.dao.impl;
 
 import com.nuaa.ssm.dao.BaseDao;
 import com.nuaa.ssm.domain.User;
+import com.nuaa.ssm.domain.Veh;
+import com.nuaa.ssm.domain.Ycsq;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  */
@@ -61,6 +64,10 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements BaseDao<User> {
 
     }
 
+    public void updateArr(int id) {
+
+    }
+
     public int selectSpedCount() {
         return 0;
     }
@@ -76,6 +83,31 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements BaseDao<User> {
     public int selectWaitedArrCount() {
         return 0;
     }
+
+    public List<User> selectArrangedPage(int offset, int len) {
+        return null;
+    }
+
+    public int selectArrangedCount() {
+        return 0;
+    }
+
+    public int selectByNumCount(Map<String, Object> map) {
+        return 0;
+    }
+
+    public List<Veh> selectByNum(Map<String, Object> map) {
+        return null;
+    }
+
+    public List<Ycsq> selectByDate(Map<String, Object> map) {
+        return null;
+    }
+
+    public int selectByDateNum(Map<String, Object> map) {
+        return 0;
+    }
+
 
     public List<User> selectWaitedArr(int offset, int len) {
         return null;

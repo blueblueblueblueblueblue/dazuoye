@@ -2,6 +2,7 @@ package com.nuaa.ssm.service.impl;
 
 import com.nuaa.ssm.dao.BaseDao;
 import com.nuaa.ssm.domain.User;
+import com.nuaa.ssm.domain.Veh;
 import com.nuaa.ssm.domain.Ycap;
 
 import com.nuaa.ssm.service.YcapService;
@@ -40,20 +41,17 @@ public class YcapServiceImpl extends BaseServiceImpl<Ycap> implements YcapServic
         return null;
     }
 
-    public List<Ycap> selectUnable(Date date) {
+    public List<String> selectUnable(Date date) {
         List<Ycap> list = selectAll();
-        List<Ycap> list1 = new ArrayList<Ycap>();
+        List<String> list1 = new ArrayList<String>();
         for (Ycap ycap:list){
              if (date.getTime()>=ycap.getKssj().getTime()&&date.getTime()<=ycap.getJssj().getTime()){
-                    list1.add(ycap);
+                    list1.add(ycap.getVehnum());
              }
         }
         return list1;
     }
 
-    public void insert(Ycap ycap) {
-
-    }
 
     public void update(Ycap ycap) {
 

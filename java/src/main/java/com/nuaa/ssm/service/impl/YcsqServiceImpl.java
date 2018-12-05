@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 @Service("ycsqService")
 public class YcsqServiceImpl extends BaseServiceImpl<Ycsq> implements YcsqService {
     @Resource(name="ycsqDao")
@@ -48,6 +50,11 @@ public class YcsqServiceImpl extends BaseServiceImpl<Ycsq> implements YcsqServic
     public int selectSpedCount() {
        return getDao().selectSpedCount();
     }
+
+    public void updateArr(int id) {
+       getDao().updateArr(id);
+    }
+
     public List<Ycsq> selectSpedPage(int offset,int len){
         return getDao().selectSpedPage(offset,len);
     }
@@ -58,6 +65,22 @@ public class YcsqServiceImpl extends BaseServiceImpl<Ycsq> implements YcsqServic
 
     public List<Ycsq> selectWaitedArrPage(int offset,int len) {
         return getDao().selectWaitedArrPage(offset,len);
+    }
+
+    public List<Ycsq> selectArrangedPage(int offset, int len) {
+        return getDao().selectArrangedPage(offset,len);
+    }
+
+    public int selectArrangedCount() {
+        return getDao().selectArrangedCount();
+    }
+
+    public int selectByDateNum(Map<String, Object> map) {
+        return getDao().selectByDateNum(map);
+    }
+
+    public List<Ycsq> selectByDate(Map<String, Object> map) {
+        return getDao().selectByDate(map);
     }
 
 

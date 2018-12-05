@@ -30,18 +30,9 @@ public class BaoController {
     private BaoService baoServices ;
 
     @RequestMapping("/baoInfo")
-    public void baoinfo(String currentpage,String limit, HttpServletResponse response, Model model, HttpSession session) throws IOException {
-        int page = Integer.parseInt(currentpage);
-
-        int limint = Integer.parseInt(limit);
-        int offint = (page-1)*limint;
-        int count = baoServices.selectCount();
-        int pagecount = count/limint;
-        if ((count%limint)>0){
-            pagecount++;
-        }
+    public void baoinfo(String vehnum, HttpServletResponse response, Model model, HttpSession session) throws IOException {
         List<Bao> list = new ArrayList<Bao>();
-        list=baoServices.selectPage(offint,limint);
+        list=baoServices.selectByVehnum(vehnum);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter writer = response.getWriter();
@@ -61,7 +52,7 @@ public class BaoController {
         }
         json.put("baolist",vehList);
         json.put("status","true");
-        json.put("pagecount",pagecount);
+
         writer.print(json);
         writer.flush();
         writer.close();

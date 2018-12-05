@@ -64,33 +64,4 @@ public class UserController {
     }
 
 
-    /**
-     * 查看全部user
-     */
-
-    /**
-     * 删除用户
-     */
-
-
-    @RequestMapping("/user")
-    public String accessHtml(HttpSession session,Model model){
-        System.out.println("userpage");
-        return "user";
-    }
-    @RequestMapping("/usersapp")
-    public String usersApp(HttpSession session,Model model){
-        return "usersapp";
-    }
-
-
-
-
-
-
-    @RequestMapping("/app")
-    public String app(HttpSession session,Model model){
-        System.out.println("应用页");
-        return "app";
-    }
 }

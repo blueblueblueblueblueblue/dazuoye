@@ -66,7 +66,7 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="open1()">安排</el-button>
+                @click="open1();handleEdit(scope.$index, scope.row)">安排</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -79,7 +79,18 @@
           :visible.sync="dialogVisible"
           width="30%"
           :before-close="handleClose">
-
+          车辆
+          <hr>
+          <el-radio style="margin: 10px" v-for="(item) in itemsAvalible" :key="item.vehnum"  v-model="radio1" :label="item.vehnum" border></el-radio>
+          <br>
+          司机
+          <hr>
+          <el-radio style="margin: 10px" v-for="(item) in itemsDriver" :key="item.vehnum"  v-model="radio2" :label="item.name" border></el-radio>
+          <br>
+          <div style="margin-left: 100px;margin-top: 20px">
+          <el-button type="success" @click="arrange" >确认</el-button>
+          <el-button type="info" @click="close1" >取消</el-button>
+          </div>
         </el-dialog>
       </el-col>
     </el-row>
@@ -87,7 +98,7 @@
       <el-col :span="24">
         <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
           <el-tab-pane label="外出车辆" name="first" style="margin: 10px">
-            <el-checkbox v-for="(item,index) in items" :key="index" v-model="item.val" :label="item.text" border></el-checkbox>
+            <el-checkbox v-for="(item,index) in items" :key="index" v-model="item.val" :label="item.vehnum" border></el-checkbox>
             <br>
             <el-button type="success" style="margin-top: 50px">确认回库</el-button>
           </el-tab-pane>
@@ -121,21 +132,32 @@
         name: "Waitedarr",
       data(){
         return{
-          items:[{val:false,text:'晋D12'},
-            {val:false,text:'晋D12'}
-          ],
+          radio2:'',
+          radio1:'',
+          items:[],
+          itemsAvalible:[],
+          itemsDriver:[],
           activeName2: 'first',
           tableData: [],
           currentRow:null,
           dialogVisible:false,
           pagecount:0,
           currentpage:1,
+          sqid:'',
+          kssj:'',
+          jssj:'',
         }
       },
       mounted:function(){
         this.handlePageSearch(1,10);
       },
       methods:{
+        handleChangepage(val) {
+          console.log(`当前页: ${val}`);
+          this.currentpage = val;
+          console.log("dangqianye",this.currentpage);
+          this.handlePageSearch(this.currentpage,10);
+        },
         handlePageSearch(currentpage,limit){
           let param = new URLSearchParams();
           param.append("currentpage", currentpage);
@@ -167,15 +189,14 @@
           this.currentRow = val;
         },
         handleEdit(index, row) {
-          var sqid = this.tableData[index].sqid;
-          let param = new URLSearchParams();
-          param.append("sqid",sqid);
-          this.$ajax.post('/spTy',param).then((res)=>{
+          console.log(index);
+          this.sqid = this.tableData[index].sqid;
+          this.kssj = this.tableData[index].ycsj;
+          this.jssj = this.tableData[index].fhsj;
+          this.$ajax.post('/apList').then((res)=>{
             if (res.data.status) {
-              this.$message({
-                type: 'success',
-                message: '已同意!'
-              });
+              this.itemsAvalible = res.data.vehlist;
+              this.itemsDriver = res.data.driverlist;
             } else {
               console.log(res.data.status)
               this.$message({
@@ -223,6 +244,38 @@
         },
         open1(){
           this.dialogVisible  = true;
+        },
+        close1(){
+          this.dialogVisible = false;
+        },
+        arrange(){
+          let param = new URLSearchParams();
+          param.append("sqid",this.sqid);
+          param.append("kssj",this.kssj);
+          param.append("jssj",this.jssj);
+          param.append("vehnum",this.radio1);
+          param.append("driver",this.radio2);
+          this.$ajax.post('/arrange',param).then((res)=>{
+            if (res.data.status) {
+              this.$message({
+                type: 'success',
+                message: '已安排!'
+              });
+            } else {
+              console.log(res.data.status)
+              this.$message({
+                type: 'error',
+                message: '参数错误',
+                showClose: true
+              })
+            }
+          }).catch((err) => {
+            this.$message({
+              type: 'error',
+              message: '网络错误，请重试',
+              showClose: true
+            })
+          })
         }
       }
     }

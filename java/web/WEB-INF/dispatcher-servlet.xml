@@ -14,15 +14,15 @@
     <!-- 使用注解驱动 -->
     <mvc:annotation-driven   />
 
-    <mvc:resources mapping="/js/**" location="/js/"/>
-    <mvc:resources mapping="/css/**" location="/css/"/>
-    <mvc:resources mapping="/images/**" location="/"/>
-    <mvc:resources mapping="/html/**" location="/html/"/>
+    <mvc:resources mapping="/static/js/**" location="/static/js/"/>
+    <mvc:resources mapping="/static/css/**" location="/static/css/"/>
+    <mvc:resources mapping="/static/img/**" location="/static/img/"/>
+    <mvc:resources mapping="/**" location="/static/"/>
 
 
     <!-- 内部资源视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/" />
-        <property name="suffix" value=".jsp"/>
+        <property name="suffix" value=""/>
     </bean>
 </beans>

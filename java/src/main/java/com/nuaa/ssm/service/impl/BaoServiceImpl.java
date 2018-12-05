@@ -8,6 +8,7 @@ import com.nuaa.ssm.service.VehService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +45,17 @@ public class BaoServiceImpl extends BaseServiceImpl<Bao> implements BaoService {
 
     public int deleteByVehnum(String vehnum) {
         return getDao().deleteByVehnum(vehnum);
+    }
+
+    public List<Bao> selectByVehnum(String vehnum) {
+        List<Bao> list = selectAll();
+        List<Bao> list1 = new ArrayList<Bao>();
+        for (Bao bao:list){
+            if (bao.getVehnum().equals(vehnum)){
+                list1.add(bao);
+            }
+        }
+        return list1;
     }
 
 }

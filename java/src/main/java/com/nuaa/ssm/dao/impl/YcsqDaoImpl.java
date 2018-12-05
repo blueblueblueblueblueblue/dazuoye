@@ -8,6 +8,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  */
@@ -63,6 +64,10 @@ public class YcsqDaoImpl extends SqlSessionDaoSupport implements BaseDao<Ycsq> {
         getSqlSession().update("ycsq.updateNty",id);
     }
 
+    public void updateArr(int id) {
+        getSqlSession().update("ycsq.updateArr",id);
+    }
+
     public int selectSpedCount() {
         return getSqlSession().selectOne("ycsq.selectSpedCount");
     }
@@ -77,6 +82,30 @@ public class YcsqDaoImpl extends SqlSessionDaoSupport implements BaseDao<Ycsq> {
 
     public int selectWaitedArrCount(){
         return getSqlSession().selectOne("ycsq.selectWaitedArrCount");
+    }
+
+    public List<Ycsq> selectArrangedPage(int offset, int len) {
+        return getSqlSession().selectList("ycsq.selectArrangedPage",new RowBounds(offset,len));
+    }
+
+    public int selectArrangedCount() {
+        return getSqlSession().selectOne("ycsq.selectArrangedCount");
+    }
+
+    public int selectByNumCount(Map<String, Object> map) {
+        return 0;
+    }
+
+    public List<Veh> selectByNum(Map<String, Object> map) {
+        return null;
+    }
+
+    public List<Ycsq> selectByDate(Map<String, Object> map) {
+        return getSqlSession().selectList("ycsq.selectByDate",map);
+    }
+
+    public int selectByDateNum(Map<String, Object> map) {
+        return getSqlSession().selectOne("ycsq.selectByDateCount",map);
     }
 
 

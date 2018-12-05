@@ -23,7 +23,7 @@
       <el-col :span="4">
         <el-button-group>
           <el-button type="primary" icon="el-icon-arrow-left" @click="lastday()">前一天</el-button>
-          <el-button type="primary">后一天<i class="el-icon-arrow-right el-icon--right" @click="nextday"></i></el-button>
+          <el-button type="primary" @click="nextday">后一天<i class="el-icon-arrow-right el-icon--right" ></i></el-button>
         </el-button-group>
       </el-col>
       <el-col :span="6">
@@ -364,7 +364,8 @@
         let param = new URLSearchParams();
         param.append("currentpage", currentpage);
         param.append("limit", limit);
-        this.$ajax.post('/ycsqInfo',param).then((res)=>{
+        param.append("ycsj",this.value1);
+        this.$ajax.post('/searchByDate',param).then((res)=>{
           if (res.data.status) {
             console.log(res.data),
               this.managertable = res.data.ycsqlist;
@@ -398,9 +399,11 @@
       },
       lastday(){
         this.value1 = new Date(this.value1.getTime()-3600*1000*24);
+        this.handlePageSearch(this.currentpage,10);
       },
       nextday(){
         this.value1 = new Date(this.value1.getTime()+3600*1000*24);
+        this.handlePageSearch(this.currentpage,10);
       },
       resetForm1(formName) {
         this.$refs[formName].resetFields();

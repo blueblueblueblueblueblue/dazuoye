@@ -104,6 +104,12 @@
           this.handlePageSearch(1,10);
       },
       methods:{
+        handleChangepage(val) {
+          console.log(`当前页: ${val}`);
+          this.currentpage = val;
+          console.log("dangqianye",this.currentpage);
+          this.handlePageSearch(this.currentpage,10);
+        },
         handlePageSearch(currentpage,limit){
           let param = new URLSearchParams();
           param.append("currentpage", currentpage);

@@ -17,10 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class YcsqController {
@@ -28,7 +27,7 @@ public class YcsqController {
     private YcsqService ycsqService;
 
     @RequestMapping("/ycsqInfo")
-    public void ycsqInfo(String currentpage, String limit, HttpServletResponse response, Model model, HttpSession session) throws IOException {
+    public void ycsqInfo(String currentpage, String limit,String ycsj, HttpServletResponse response, Model model, HttpSession session) throws IOException {
         int page = Integer.parseInt(currentpage);
 
         int limint = Integer.parseInt(limit);
@@ -67,6 +66,53 @@ public class YcsqController {
         writer.flush();
         writer.close();
     }
+
+    @RequestMapping("/searchByDate")
+    public void searchInfo(String currentpage, String limit,String ycsj, HttpServletResponse response, Model model, HttpSession session) throws IOException, ParseException {
+        int page = Integer.parseInt(currentpage);
+        Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map1 = new HashMap<String, Object>();
+        map1.put("ycsj",ycsj);
+        int limint = Integer.parseInt(limit);
+        int offint = (page-1)*limint;
+        map.put("ycsj",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(ycsj));
+        map.put("offset",offint);
+        map.put("limit",limint);
+        int count = ycsqService.selectByDateNum(map1);
+        int pagecount = count/limint;
+        if ((count%limint)>0){
+            pagecount++;
+        }
+        List<Ycsq> list = new ArrayList<Ycsq>();
+        list=ycsqService.selectByDate(map);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        JSONObject json = new JSONObject();
+        JSONArray vehList = new JSONArray();
+        for (Ycsq ycsq:list){
+            JSONObject ycsqli = new JSONObject();
+            ycsqli.put("ycsj",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ycsq.getYcsj()));
+            ycsqli.put("ycr",ycsq.getYcr());
+            ycsqli.put("ycsy",ycsq.getYcsy());
+            ycsqli.put("ycrs",ycsq.getCzrs());
+            ycsqli.put("mdd",ycsq.getMdd());
+            ycsqli.put("sfxysj",ycsq.getSfxysj());
+            ycsqli.put("csspr",ycsq.getCsspr());
+            ycsqli.put("apqk",ycsq.getApqk());
+            ycsqli.put("sqsj", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ycsq.getSqsj()));
+            ycsqli.put("apstatus",ycsq.getApstatus());
+            ycsqli.put("spstatus",ycsq.getSpstatus());
+            vehList.add(ycsqli);
+        }
+        json.put("ycsqlist",vehList);
+        json.put("status","true");
+        json.put("pagecount",pagecount);
+        writer.print(json);
+        writer.flush();
+        writer.close();
+    }
+
 
     @RequestMapping("/waitedSpInfo")
     public void waitedSp(String currentpage, String limit, HttpServletResponse response, Model model, HttpSession session) throws IOException {
@@ -232,6 +278,7 @@ public class YcsqController {
             ycsqli.put("sfxysj",ycsq.getSfxysj());
             ycsqli.put("csspr",ycsq.getCsspr());
             ycsqli.put("apqk",ycsq.getApqk());
+            ycsqli.put("fhsj",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ycsq.getNfhsj()));
             ycsqli.put("sqsj", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ycsq.getSqsj()));
             ycsqli.put("apstatus",ycsq.getApstatus());
             ycsqli.put("spstatus",ycsq.getSpstatus());

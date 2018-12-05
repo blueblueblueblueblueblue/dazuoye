@@ -5,12 +5,20 @@ import java.util.Date;
 public class Ycap {
     private String vehnum;
     private String driver;
-    private int id;
+    private int sqid;
     private Date kssj;
     private Date jssj;
 
     public String getVehnum() {
         return vehnum;
+    }
+
+    public int getSqid() {
+        return sqid;
+    }
+
+    public void setSqid(int sqid) {
+        this.sqid = sqid;
     }
 
     public void setVehnum(String vehnum) {
@@ -25,13 +33,7 @@ public class Ycap {
         this.driver = driver;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Date getKssj() {
         return kssj;

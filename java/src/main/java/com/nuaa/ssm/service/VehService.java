@@ -4,6 +4,7 @@ import com.nuaa.ssm.domain.User;
 import com.nuaa.ssm.domain.Veh;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -25,5 +26,9 @@ public interface VehService extends BaseService<Veh> {
 
     public int [] selectEnable();
 
-    public List<Veh> selectLimitList();
+    public List<String> selectLimitList();
+
+    public List<Veh> selectByNum(Map<String,Object> map);
+
+    public int selectByNumCount(Map<String,Object> map);
 }
